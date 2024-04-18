@@ -65636,11 +65636,16 @@ async function run({ GITHUB_WORKSPACE }) {
             .split(/\r?\n/)
             .filter(Boolean);
         const filesWithLinks = getLinkInfoFromFiles(GITHUB_WORKSPACE, files);
-        if (!filesWithLinks.length)
+        core.info(`Files with links: ${JSON.stringify(filesWithLinks)}`);
+        if (!filesWithLinks.length) {
+            core.info('No links found in the files provided');
             return;
+        }
         const brokenLinks = await collectBrokenLinks(baseUrl, filesWithLinks, whitelist);
-        if (!brokenLinks.length)
+        if (!brokenLinks.length) {
+            core.info('No broken links found');
             return;
+        }
         const annotations = createAnnotations(brokenLinks);
         core.setOutput('annotations', annotations);
         core.setFailed(`${brokenLinks.length} broken links found!
