@@ -28,13 +28,13 @@ export function isAnchorLinkPresent(hash: string, markup: string): boolean {
 			return (
 				// <a name={anchor}></a>
 				(node.tagName === "a" &&
-					(node.properties as Properties)?.name === anchor) ||
+					(node.properties as Properties)?.["name"] === anchor) ||
 				// <a href={hash}></a>
 				(node.tagName === "a" &&
-					(node.properties as Properties)?.href === hash) ||
+					(node.properties as Properties)?.["href"] === hash) ||
 				// <{el} id={anchor}></{el}>
 				(node.type === "element" &&
-					(node.properties as Properties)?.id === anchor)
+					(node.properties as Properties)?.["id"] === anchor)
 			);
 		},
 	);
