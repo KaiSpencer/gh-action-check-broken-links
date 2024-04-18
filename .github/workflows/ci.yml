@@ -1,15 +1,10 @@
 name: 'C/I'
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - 'releases/*'
+on: pull_request
 
 jobs:
-  ci:
-    name: Build / Test / Run
+  e2e:
+    name: E2E Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,7 +13,7 @@ jobs:
       - run: bun install
 
       - name: Build / Test
-        run: bun run all
+        run: bun run build
 
       - name: Run
         id: action
@@ -30,3 +25,22 @@ jobs:
 
       - run: |
           echo ${{ toJson(steps.action.outputs.annotations) }}
+
+  test:
+    name: Typecheck / Lint / Unit Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+
+      - run: bun install
+
+      - name: Typecheck
+        run: bun run tsc
+
+      - name: Lint
+        run: bun run check
+
+      - name: Unit Test
+        run: bun run test

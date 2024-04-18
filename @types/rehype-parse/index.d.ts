@@ -1,1 +1,1 @@
-declare module 'rehype-parse'
+declare module "rehype-parse";
