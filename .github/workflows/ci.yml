@@ -1,0 +1,52 @@
+name: CI
+
+on: pull_request
+
+jobs:
+  e2e:
+    name: E2E Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+
+      - run: bun install
+
+      - name: Build / Test
+        run: bun run build
+
+      - name: Run
+        id: action
+        continue-on-error: true
+        uses: ./
+        with:
+          baseUrl: 'https://hashicorp.com'
+          files: 'pages/test.mdx'
+
+      - run: |
+          expected='[{"path":"pages/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"}]'
+          actual=$(echo "${{ toJson(steps.action.outputs.annotations) }}")
+          if [ "$expected" != "$actual" ]; then
+            echo "Expected: $expected"
+            echo "Actual: $actual"
+            exit 1
+          fi
+
+  test:
+    name: Typecheck / Lint / Unit Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+
+      - run: bun install
+
+      - name: Typecheck
+        run: bun run tsc
+
+      - name: Lint
+        run: bun run check
+
+      - name: Unit Test
+        run: bun run test

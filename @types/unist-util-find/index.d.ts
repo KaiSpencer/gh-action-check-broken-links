@@ -1,1 +1,1 @@
-declare module 'unist-util-find'
+declare module "unist-util-find";
