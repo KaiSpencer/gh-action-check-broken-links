@@ -26,7 +26,9 @@ async function run({ GITHUB_WORKSPACE }: ActionEnvironment): Promise<void> {
       .filter(Boolean)
 
     const filesWithLinks = getLinkInfoFromFiles(GITHUB_WORKSPACE, files)
-    core.info(`Files with links: ${JSON.stringify(filesWithLinks)}`)
+    core.info(
+      `Files with links: ${JSON.stringify(filesWithLinks.map((x) => x.filename))}`,
+    )
 
     if (!filesWithLinks.length) {
       core.info('No links found in the files provided')
