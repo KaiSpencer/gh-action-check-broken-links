@@ -129,8 +129,8 @@ export async function fetchStatusCode(
 ): Promise<number> {
 	core.debug(`Fetching network status for url: "${href}"...`);
 	try {
-		const res = await fetch(href, { timeout: 1500 });
-		const statusCode = await res.status;
+		const res = await fetch(href);
+		const statusCode = res.status;
 
 		// Immediately return status code on non-successful network response
 		if (statusCode >= 400) return statusCode;

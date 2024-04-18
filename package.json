@@ -13,7 +13,7 @@
 		"format": "biome format .",
 		"lint": "biome lint .",
 		"fix": "biome check . --apply-unsafe",
-		"all": "$npm_execpath run tsc && $npm_execpath run pack && $npm_execpath run test --run"
+		"all": "$npm_execpath run tsc && $npm_execpath run check && $npm_execpath run pack && $npm_execpath run test --run"
 	},
 	"keywords": ["actions", "node", "link", "check"],
 	"author": "Kevin Pruett",
@@ -34,7 +34,6 @@
 		"@types/hast-format": "^2.3.0",
 		"@types/mdast": "^4.0.3",
 		"@types/node": "^20.12.2",
-		"@types/node-fetch": "^2.6.11",
 		"@types/unist": "^3.0.2",
 		"@vercel/ncc": "^0.38.1",
 		"husky": "^9.0.11",
