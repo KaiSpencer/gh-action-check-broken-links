@@ -24,14 +24,13 @@ jobs:
           files: 'pages/test.mdx'
 
       - run: |
-          expected="[{"path":"pages/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"}]"
-          actual=$(echo ${{ toJson(steps.action.outputs.annotations) }})
+          local expected='[{"path":"pages/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"}]'
+          local actual=$(echo "${{ toJson(steps.action.outputs.annotations) }}")
           if [ "$expected" != "$actual" ]; then
             echo "Expected: $expected"
             echo "Actual: $actual"
             exit 1
           fi
-
 
   test:
     name: Typecheck / Lint / Unit Test
