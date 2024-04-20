@@ -2,7 +2,7 @@
 
 Maintained fork of [hashicorp/gh-action-check-broken-links](https://github.com/hashicorp/gh-action-check-broken-links), updated with modern tooling.
 
-![C/I Status](https://github.com/KaiSpencer/gh-action-check-broken-links/workflows/CI/badge.svg)
+![CI Status](https://github.com/KaiSpencer/gh-action-check-broken-links/workflows/CI/badge.svg)
 
 A GitHub Action that reports all broken links found within a set of provided `.mdx` files
 
@@ -16,14 +16,16 @@ Parses `.mdx` files, locating all links. Reports back any failed requests includ
 ## Example Usage
 
 ```yaml
-- name: HashiCorp's Link Checker
-  uses: hashicorp/gh-action-check-broken-links@v1
+- name: MDX Broken Link Checker
+  uses: KaiSpencer/gh-action-check-broken-links@v0
   with:
     # Required: The base URL to check links against
-    # For example: /pages/foo.mdx will be checked against https://hashicorp.com/foo
-    baseUrl: 'https://hashicorp.com'
+    # For example: /pages/foo.mdx will be checked against https://mysite.com/foo
+    baseUrl: 'https://mysite.com'
     # Optional: Provide a list of files to check
     files: 'pages/foo.mdx pages/bar.mdx'
+    # Optional: Provide a list of URLs to whitelist
+    # These URLs will not be checked
     whitelist: |
       https://google.com/whitelist
       https://yahoo.com/whitelist
