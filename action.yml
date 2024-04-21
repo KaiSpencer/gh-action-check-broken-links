@@ -13,6 +13,9 @@ inputs:
   files:
     description: 'A list of files that will be scanned for the presence of links'
     required: false
+  directory:
+    description: 'A directory that will be scanned for the presence of links'
+    required: false
   whitelist:
     description: 'A newline delmited list of URLs that will be ignored'
     required: false
