@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import path from "node:path";
 import url from "node:url";
 import * as core from "@actions/core";
@@ -27,26 +28,45 @@ interface BrokenLink {
 	position: Position;
 }
 
+export function getFilesFromDirectory(
+	workspace: string,
+	directory: string,
+	accumulator: string[] = [],
+): string[] {
+	if (directory === "") {
+		return [];
+	}
+	const filesAndDirectories = fs.readdirSync(path.join(workspace, directory));
+	for (const file of filesAndDirectories) {
+		const relativePath = path.join(directory, file);
+		const fullPath = path.join(workspace, directory, file);
+
+		const stats = fs.statSync(fullPath);
+		if (stats.isDirectory()) {
+			return getFilesFromDirectory(workspace, relativePath, accumulator);
+		}
+
+		if (!file.endsWith(".mdx")) {
+			continue;
+		}
+		accumulator.push(relativePath);
+	}
+	return accumulator;
+}
+
 export function getLinkInfoFromFiles(
 	workspace: string,
 	files: string[],
 ): LinkInfo[] {
-	return files
-		.filter((filename) => {
-			return (
-				filename.split("/").includes("pages") ||
-				filename.split("/").includes("content")
-			);
-		})
-		.map((filename) => {
-			const filepath = path.join(workspace, filename);
-			const links = findAllLinks(filepath);
+	return files.map((filename) => {
+		const filepath = path.join(workspace, filename);
+		const links = findAllLinks(filepath);
 
-			return {
-				filename,
-				links,
-			};
-		});
+		return {
+			filename,
+			links,
+		};
+	});
 }
 
 export async function collectBrokenLinks(

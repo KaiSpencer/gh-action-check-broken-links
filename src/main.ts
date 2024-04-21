@@ -2,6 +2,7 @@ import * as core from "@actions/core";
 import {
 	collectBrokenLinks,
 	createAnnotations,
+	getFilesFromDirectory,
 	getLinkInfoFromFiles,
 } from "./lib";
 
@@ -14,7 +15,10 @@ interface ActionEnvironment {
 async function run({ GITHUB_WORKSPACE }: ActionEnvironment): Promise<void> {
 	try {
 		const baseUrl: string = core.getInput("baseUrl", { required: true });
-		const files: string[] = core
+		const inputDirectory = core.getInput("directory", {
+			required: false,
+		});
+		const explicitInputFiles: string[] = core
 			.getInput("files")
 			.split(" ")
 			// Only support .mdx files at this time
@@ -25,7 +29,16 @@ async function run({ GITHUB_WORKSPACE }: ActionEnvironment): Promise<void> {
 			.split(/\r?\n/)
 			.filter(Boolean);
 
-		const filesWithLinks = getLinkInfoFromFiles(GITHUB_WORKSPACE, files);
+		const directoryFiles = getFilesFromDirectory(
+			GITHUB_WORKSPACE,
+			inputDirectory,
+		);
+
+		const filesWithLinks = getLinkInfoFromFiles(GITHUB_WORKSPACE, [
+			...explicitInputFiles,
+			...directoryFiles,
+		]);
+
 		core.info(
 			`Files with links: ${JSON.stringify(
 				filesWithLinks.map((x) => x.filename),

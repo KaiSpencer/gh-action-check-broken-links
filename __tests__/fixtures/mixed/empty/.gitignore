@@ -1,0 +1,5 @@
+# Ignore everything in this directory
+# Just so we can commit an empty directory
+*
+# Except this file
+!.gitignore
