@@ -32,6 +32,9 @@ export function getFilesFromDirectory(
 	workspace: string,
 	directory: string,
 ): string[] {
+	if (directory === "") {
+		return [];
+	}
 	// Recurse the directory and find all the mdx files, return as a list of strings
 	const filesInCurrentDirectory = fs.readdirSync(
 		path.join(workspace, directory),

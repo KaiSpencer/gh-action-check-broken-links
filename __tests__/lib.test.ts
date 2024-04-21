@@ -73,6 +73,24 @@ describe(`${pkg.name} -- Library`, () => {
 				expect.arrayContaining(["content/tutorials/vault/getting-started.mdx"]),
 			);
 		});
+
+		it("should return an empty array if the provided directory has no mdx files in any subdirectories", () => {
+			const workspace = path.join(__dirname, "fixtures/mixed");
+			const directory = "empty";
+
+			const actual = lib.getFilesFromDirectory(workspace, directory);
+
+			expect(actual).toEqual([]);
+		});
+
+		it("should return empty array if the provided dirctory parameter is an empty string (i.e. no directory arg provided)", () => {
+			const workspace = path.join(__dirname, "fixtures/mdx");
+			const directory = "";
+
+			const actual = lib.getFilesFromDirectory(workspace, directory);
+
+			expect(actual).toEqual([]);
+		});
 	});
 
 	describe("collectBrokenLinks()", () => {
