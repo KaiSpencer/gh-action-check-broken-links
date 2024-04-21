@@ -91,6 +91,22 @@ describe(`${pkg.name} -- Library`, () => {
 
 			expect(actual).toEqual([]);
 		});
+
+		it("should append to accumulator if passed", () => {
+			const workspace = path.join(__dirname, "fixtures/mixed");
+			const directory = "content";
+
+			const actual = lib.getFilesFromDirectory(workspace, directory, [
+				"test/file.mdx",
+			]);
+
+			expect(actual).toEqual(
+				expect.arrayContaining([
+					"test/file.mdx",
+					"content/tutorials/vault/getting-started.mdx",
+				]),
+			);
+		});
 	});
 
 	describe("collectBrokenLinks()", () => {

@@ -31,23 +31,27 @@ interface BrokenLink {
 export function getFilesFromDirectory(
 	workspace: string,
 	directory: string,
+	accumulator: string[] = [],
 ): string[] {
 	if (directory === "") {
 		return [];
 	}
-	// Recurse the directory and find all the mdx files, return as a list of strings
-	const filesInCurrentDirectory = fs.readdirSync(
-		path.join(workspace, directory),
-	);
-	const files = filesInCurrentDirectory.map((file) => {
+	const filesAndDirectories = fs.readdirSync(path.join(workspace, directory));
+	for (const file of filesAndDirectories) {
+		const relativePath = path.join(directory, file);
 		const fullPath = path.join(workspace, directory, file);
+
 		const stats = fs.statSync(fullPath);
 		if (stats.isDirectory()) {
-			return getFilesFromDirectory(workspace, path.join(directory, file));
+			return getFilesFromDirectory(workspace, relativePath, accumulator);
 		}
-		return path.join(directory, file);
-	});
-	return files.flat();
+
+		if (!file.endsWith(".mdx")) {
+			continue;
+		}
+		accumulator.push(relativePath);
+	}
+	return accumulator;
 }
 
 export function getLinkInfoFromFiles(
