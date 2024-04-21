@@ -47,27 +47,29 @@ describe(`${pkg.name} -- Library`, () => {
 			);
 		});
 
-		it("should reject files outside the 'pages' or 'content' directories", () => {
-			const workspace = path.join(__dirname, "fixtures/mixed");
-			const files = [
-				"invalid/terraform/foo.mdx",
-				"content/tutorials/vault/getting-started.mdx",
-				"pages/terraform/install.mdx",
-			];
+	describe("getFilesFromDirectory()", () => {
+		it("should return a list of files in the provided directory", () => {
+			const workspace = path.join(__dirname, "fixtures/mdx");
+			const directory = "pages";
 
-			const actual = lib.getLinkInfoFromFiles(workspace, files);
-
-			expect(actual.length).toEqual(2);
+			const actual = lib.getFilesFromDirectory(workspace, directory);
 
 			expect(actual).toEqual(
 				expect.arrayContaining([
-					expect.objectContaining({
-						filename: "content/tutorials/vault/getting-started.mdx",
-					}),
-					expect.objectContaining({
-						filename: "pages/terraform/install.mdx",
-					}),
+					"pages/consul.mdx",
+					"pages/terraform/getting-started.mdx",
 				]),
+			);
+		});
+
+		it("should recurse through nested directories and return a list of files", () => {
+			const workspace = path.join(__dirname, "fixtures/mixed");
+			const directory = "content";
+
+			const actual = lib.getFilesFromDirectory(workspace, directory);
+
+			expect(actual).toEqual(
+				expect.arrayContaining(["content/tutorials/vault/getting-started.mdx"]),
 			);
 		});
 	});

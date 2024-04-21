@@ -5,6 +5,7 @@ import type { Endpoints } from "@octokit/types";
 import fetch from "node-fetch";
 import type { Position } from "unist";
 import { type Link, findAllLinks, isAnchorLinkPresent } from "./utils";
+import fs from "node:fs";
 
 type CheckResult =
 	Endpoints["POST /repos/{owner}/{repo}/check-runs"]["parameters"];
@@ -27,26 +28,38 @@ interface BrokenLink {
 	position: Position;
 }
 
+export function getFilesFromDirectory(
+	workspace: string,
+	directory: string,
+): string[] {
+	// Recurse the directory and find all the mdx files, return as a list of strings
+	const filesInCurrentDirectory = fs.readdirSync(
+		path.join(workspace, directory),
+	);
+	const files = filesInCurrentDirectory.map((file) => {
+		const fullPath = path.join(workspace, directory, file);
+		const stats = fs.statSync(fullPath);
+		if (stats.isDirectory()) {
+			return getFilesFromDirectory(workspace, path.join(directory, file));
+		}
+		return path.join(directory, file);
+	});
+	return files.flat();
+}
+
 export function getLinkInfoFromFiles(
 	workspace: string,
 	files: string[],
 ): LinkInfo[] {
-	return files
-		.filter((filename) => {
-			return (
-				filename.split("/").includes("pages") ||
-				filename.split("/").includes("content")
-			);
-		})
-		.map((filename) => {
-			const filepath = path.join(workspace, filename);
-			const links = findAllLinks(filepath);
+	return files.map((filename) => {
+		const filepath = path.join(workspace, filename);
+		const links = findAllLinks(filepath);
 
-			return {
-				filename,
-				links,
-			};
-		});
+		return {
+			filename,
+			links,
+		};
+	});
 }
 
 export async function collectBrokenLinks(
