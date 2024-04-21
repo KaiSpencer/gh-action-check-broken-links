@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import path from "node:path";
 import url from "node:url";
 import * as core from "@actions/core";
@@ -5,7 +6,6 @@ import type { Endpoints } from "@octokit/types";
 import fetch from "node-fetch";
 import type { Position } from "unist";
 import { type Link, findAllLinks, isAnchorLinkPresent } from "./utils";
-import fs from "node:fs";
 
 type CheckResult =
 	Endpoints["POST /repos/{owner}/{repo}/check-runs"]["parameters"];

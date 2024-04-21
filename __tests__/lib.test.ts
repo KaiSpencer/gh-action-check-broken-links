@@ -46,6 +46,7 @@ describe(`${pkg.name} -- Library`, () => {
 				]),
 			);
 		});
+	});
 
 	describe("getFilesFromDirectory()", () => {
 		it("should return a list of files in the provided directory", () => {
