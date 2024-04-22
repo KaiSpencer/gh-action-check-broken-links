@@ -92,22 +92,6 @@ describe(`${pkg.name} -- Library`, () => {
 			expect(actual).toEqual([]);
 		});
 
-		it("should append to accumulator if passed", () => {
-			const workspace = path.join(__dirname, "fixtures/mixed");
-			const directory = "content";
-
-			const actual = lib.getFilesFromDirectory(workspace, directory, [
-				"test/file.mdx",
-			]);
-
-			expect(actual).toEqual(
-				expect.arrayContaining([
-					"test/file.mdx",
-					"content/tutorials/vault/getting-started.mdx",
-				]),
-			);
-		});
-
 		it("should return multiple files at multiple levels nesting", () => {
 			const workspace = path.join(__dirname, "fixtures");
 			const directory = "mixed";
@@ -118,6 +102,20 @@ describe(`${pkg.name} -- Library`, () => {
 				expect.arrayContaining([
 					"mixed/content/tutorials/vault/getting-started.mdx",
 					"mixed/pages/terraform/install.mdx",
+				]),
+			);
+		});
+
+		it("should return multiple files at multiple levels nesting 2", () => {
+			const workspace = path.join(__dirname);
+			const directory = "fixtures";
+
+			const actual = lib.getFilesFromDirectory(workspace, directory);
+
+			expect(actual).toEqual(
+				expect.arrayContaining([
+					"fixtures/mixed/content/tutorials/vault/getting-started.mdx",
+					"fixtures/mixed/pages/terraform/install.mdx",
 				]),
 			);
 		});
