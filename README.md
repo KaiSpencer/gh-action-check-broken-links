@@ -3,6 +3,7 @@
 Maintained fork of [hashicorp/gh-action-check-broken-links](https://github.com/hashicorp/gh-action-check-broken-links), updated with modern tooling.
 
 ![CI Status](https://github.com/KaiSpencer/gh-action-check-broken-links/workflows/CI/badge.svg)
+![GitHub Release](https://img.shields.io/github/v/release/KaiSpencer/gh-action-check-broken-links?label=Latest%20Release)
 
 A GitHub Action that reports all broken links found within a set of provided `.mdx` files
 
