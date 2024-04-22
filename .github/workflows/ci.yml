@@ -41,7 +41,7 @@ jobs:
         uses: ./
         with:
           baseUrl: 'https://hashicorp.com'
-          directory: "pages/1/2"
+          directory: "pages"
 
       - name: Assert Just Directory
         run: |
