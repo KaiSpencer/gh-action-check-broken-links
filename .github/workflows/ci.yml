@@ -45,7 +45,7 @@ jobs:
 
       - name: Assert Just Directory
         run: |
-          expected='[{"path":"pages/1/2/3/4/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"},{"path":"pages/1/2/file.mdx","start_line":3,"end_line":3,"start_column":1,"end_column":55,"annotation_level":"failure","message":"https://www.google.com/broken/link :: Error code 404"},{"path":"pages/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"}]'
+          expected='[{"path":"pages/1/2/3/4/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"},{"path":"pages/1/2/file.mdx","start_line":3,"end_line":3,"start_column":1,"end_column":55,"annotation_level":"failure","message":"https://www.google.com/broken/link :: Error code 404"}]'
           actual=$(echo "${{ toJson(steps.just-directory.outputs.annotations) }}")
           if [ "$expected" != "$actual" ]; then
             echo "Expected: $expected"
@@ -65,7 +65,7 @@ jobs:
       
       - name: Assert Output
         run: |
-          expected='[{"path":"pages/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"},{"path":"pages/1/2/3/4/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"}]'
+          expected='[{"path":"pages/1/2/3/4/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"},{"path":"pages/1/2/file.mdx","start_line":3,"end_line":3,"start_column":1,"end_column":55,"annotation_level":"failure","message":"https://www.google.com/broken/link :: Error code 404"},{"path":"pages/test.mdx","start_line":3,"end_line":3,"start_column":42,"end_column":74,"annotation_level":"failure","message":"https://hashicorp.com/broken/link :: Error code 404"}]'
           actual=$(echo "${{ toJson(steps.files-and-directory.outputs.annotations) }}")
           if [ "$expected" != "$actual" ]; then
             echo "Expected: $expected"
