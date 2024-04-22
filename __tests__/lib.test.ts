@@ -107,6 +107,20 @@ describe(`${pkg.name} -- Library`, () => {
 				]),
 			);
 		});
+
+		it("should return multiple files at multiple levels nesting", () => {
+			const workspace = path.join(__dirname, "fixtures");
+			const directory = "mixed";
+
+			const actual = lib.getFilesFromDirectory(workspace, directory);
+
+			expect(actual).toEqual(
+				expect.arrayContaining([
+					"mixed/content/tutorials/vault/getting-started.mdx",
+					"mixed/pages/terraform/install.mdx",
+				]),
+			);
+		});
 	});
 
 	describe("collectBrokenLinks()", () => {

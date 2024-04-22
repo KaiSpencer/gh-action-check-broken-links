@@ -37,13 +37,15 @@ export function getFilesFromDirectory(
 		return [];
 	}
 	const filesAndDirectories = fs.readdirSync(path.join(workspace, directory));
+
 	for (const file of filesAndDirectories) {
 		const relativePath = path.join(directory, file);
 		const fullPath = path.join(workspace, directory, file);
 
 		const stats = fs.statSync(fullPath);
 		if (stats.isDirectory()) {
-			return getFilesFromDirectory(workspace, relativePath, accumulator);
+			const _files = getFilesFromDirectory(workspace, relativePath, []);
+			accumulator.push(..._files);
 		}
 
 		if (!file.endsWith(".mdx")) {
