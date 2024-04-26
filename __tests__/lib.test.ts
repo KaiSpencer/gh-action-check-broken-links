@@ -20,7 +20,7 @@ import * as utils from "../src/utils";
 import pkg from "../package.json";
 
 const nodeFetchMock = await vi.importActual("node-fetch");
-const Response = nodeFetchMock.Response as typeof globalThis.Response;
+const Response = nodeFetchMock["Response"] as typeof globalThis.Response;
 
 describe(`${pkg.name} -- Library`, () => {
 	afterAll(() => {
@@ -306,7 +306,7 @@ describe(`${pkg.name} -- Library`, () => {
 			it("should return a status code of 502 when an anchor link is not present in the resulting markup", async () => {
 				const anchor = "inline-link-test";
 				const hash = `#${anchor}`;
-				const markup = "<html><h1>No anchor links here!</h1></html>";
+				const markup = "<html lang='en'><h1>No anchor links here!</h1></html>";
 
 				const isAnchorLinkPresentSpy = vi
 					.spyOn(utils, "isAnchorLinkPresent")
@@ -332,7 +332,7 @@ describe(`${pkg.name} -- Library`, () => {
 			it("should return the status code of the initial request when the anchor link is present in the resulting markup", async () => {
 				const anchor = "inline-link";
 				const hash = `#${anchor}`;
-				const markup = `<html><h1 id="${anchor}">Inline link present!</h1></html>`;
+				const markup = `<html lang="en"><h1 id="${anchor}">Inline link present!</h1></html>`;
 				const status = 301;
 
 				mockedFetch.mockReturnValue(

@@ -1,5 +1,5 @@
 {
-	"name": "@hashicorp/gh-action-check-broken-links",
+	"name": "gh-action-check-broken-links",
 	"version": "0.0.0",
 	"description": "A GitHub Action that checks for the presence of broken links",
 	"main": "lib/main.js",
@@ -16,7 +16,7 @@
 		"all": "$npm_execpath run tsc && $npm_execpath run check && $npm_execpath run pack && $npm_execpath run test --run"
 	},
 	"keywords": ["actions", "node", "link", "check"],
-	"author": "Kevin Pruett",
+	"author": "Kai Spencer",
 	"license": "MIT",
 	"dependencies": {
 		"node-fetch": "^3.3.2",

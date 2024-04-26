@@ -40,10 +40,11 @@ async function run({ GITHUB_WORKSPACE }: ActionEnvironment): Promise<void> {
 		]);
 
 		core.info(
-			`Files with links: ${JSON.stringify(
-				filesWithLinks.map((x) => x.filename),
-			)}`,
+			`Found ${filesWithLinks.length} files with links`
 		);
+		for (const file of filesWithLinks){
+			core.debug(`Found ${file}`);
+		}
 
 		if (!filesWithLinks.length) {
 			core.info("No links found in the files provided");
@@ -72,4 +73,7 @@ ${annotations.map((x) => `Filename: ${x.path} :: ${x.message}`).join("\n")}`);
 	}
 }
 
-run(process.env as ActionEnvironment);
+run(process.env as ActionEnvironment).catch((error) => {
+	console.error(error);
+	process.exit(1);
+});
